@@ -6,11 +6,12 @@ import * as schema from "./src/db/schema.js";
 import { eq, desc } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
-// import { db } from "./src/db/index.js";
-// import { supabase } from "./src/db/storage.js";
-import { createClient } from "@supabase/supabase-js";
+// import { drizzle } from "drizzle-orm/postgres-js";
+// import postgres from "postgres";
+// import { createClient } from "@supabase/supabase-js";
+
+import { db } from "./src/db/index.js";
+import { supabase } from "./src/db/storage.js";
 
 //router
 // import { register } from "./src/api/register.js";
@@ -20,12 +21,12 @@ import { createClient } from "@supabase/supabase-js";
 
 process.loadEnvFile();
 
-const client = postgres(process.env.DATABASE_URL);
-const db = drizzle(client, { schema });
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY,
-);
+// const client = postgres(process.env.DATABASE_URL);
+// const db = drizzle(client, { schema });
+// const supabase = createClient(
+//   process.env.SUPABASE_URL,
+//   process.env.SUPABASE_SERVICE_KEY,
+// );
 
 const app = new Hono();
 
