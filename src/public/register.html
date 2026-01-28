@@ -37,6 +37,12 @@
 
             const data = await res.json();
             console.log(data);
+
+            if(data.success) {
+                window.location.href = "./login.html";
+            } else {
+                alert(data.message);
+            }
         });
     </script>
 </body>

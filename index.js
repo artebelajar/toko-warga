@@ -1,15 +1,22 @@
 import { serve } from "@hono/node-server";
-import {serveStatic} from "@hono/node-server/serve-static";
+import { serveStatic } from "@hono/node-server/serve-static";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
 import * as schema from "./src/db/schema.js";
 import { eq, desc } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-// import dotenv from "dotenv";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
+// import { db } from "./src/db/index.js";
+// import { supabase } from "./src/db/storage.js";
 import { createClient } from "@supabase/supabase-js";
+
+//router
+// import { register } from "./src/api/register.js";
+// import { login } from "./src/api/login.js";
+// import { auth } from "./src/api/auth.js";
+// import { addProduct } from "./src/api/addProduct.js";
 
 process.loadEnvFile();
 
@@ -25,21 +32,23 @@ const app = new Hono();
 app.use("*", cors());
 
 app.post("/api/register", async (c) => {
-  try {
-  const { username, password } = await c.req.json();
-  const hashedPassword = bcrypt.hashSync(password, 10);
-  const user = await db.insert(schema.usersECommerce).values({
-    username,
-    password: hashedPassword,
-    role: "user",
-  });
-  return c.json({ success: true, message: `Registrasi berhasil ${user[0]}` }, 201);
-} catch (error) {
-  console.error(error);
-  return c.json({ success: false, message: "Registrasi gagal" }, 500);
-}
+try {
+    const { username, password } = await c.req.json();
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    const user = await db.insert(schema.usersECommerce).values({
+      username,
+      password: hashedPassword,
+      role: "user",
+    });
+    return c.json(
+      { success: true, message: `Registrasi berhasil ${user[0]}` },
+      201,
+    );
+  } catch (error) {
+    console.error(error);
+    return c.json({ success: false, message: "Registrasi gagal" }, 500);
+  }
 });
-
 
 app.post("/api/login", async (c) => {
   const { username, password } = await c.req.json();
@@ -57,7 +66,7 @@ app.post("/api/login", async (c) => {
     process.env.JWT_SECRET,
     { expiresIn: "1d" },
   );
-  return c.json({ success: true, message: "Login berhasil", token });
+  return c.json({ success: true, message: user.role, token });
 });
 
 const authMiddleware = async (c, next) => {
@@ -74,6 +83,15 @@ const authMiddleware = async (c, next) => {
     return c.json({ success: false, message: "Invalid token" }, 403);
   }
 };
+
+app.get("/api/me", authMiddleware, (c) => {
+  const user = c.get("user"); 
+  return c.json({
+    success: true,
+    user,
+  })
+});
+
 
 app.post("/api/products", authMiddleware, async (c) => {
   try {
@@ -188,7 +206,7 @@ app.post("/api/orders", async (c) => {
   }
 });
 
-app.use('/*', serveStatic({root: 'src/public'}));
+app.use("/*", serveStatic({ root: "src/public" }));
 
 const port = 4554;
 console.log(`Server running on http://localhost:${port}`);

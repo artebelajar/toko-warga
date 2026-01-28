@@ -7,7 +7,8 @@
   </head>
   <body>
     <h1>Toko Warga</h1>
-    <a href="./login.html">Login biar bisa</a>
+    <h3>Selamat Datang, <span id="username"></span><h3>
+    <a href="./login.html">Logout</a>
     <button onclick="toggleCart()">
       Lihat Keranjang (<span id="count">0</span>)
     </button>
@@ -130,7 +131,28 @@
         }
       }
 
-      load();
+      // load();
+
+      async function checkAuth() {
+        try {
+          const res = await fetch("/api/me");
+          const json = await res.json();
+          if (json.success) {
+            document.getElementById("username").textContent =
+              json.data.username;
+            return true;
+          }
+          // window.location.href = "./login.js";
+          load();
+        } catch (e) {
+          window.location.href = "./login.js";
+        }
+        return false;
+      }
+
+      (async () => {
+        if (await checkAuth()) load();
+      })();
     </script>
   </body>
 </html>
