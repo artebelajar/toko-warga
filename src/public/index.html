@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toko Warga</title>
+  </head>
+  <body>
+    <h1>Toko Warga</h1>
+    <a href="./login.html">Login biar bisa</a>
+    <button onclick="toggleCart()">
+      Lihat Keranjang (<span id="count">0</span>)
+    </button>
+    <hr />
+
+    <div
+      id="cartModal"
+      style="
+        display: none;
+        background: #eee;
+        padding: 20px;
+        border: 1px solid black;
+        margin-bottom: 20px;
+      "
+    >
+      <h2>keranjang Anda</h2>
+      <div id="cartList"></div>
+      <br />
+
+      <label>Nama Pemesan:</label><br />
+      <input type="text" id="cName" /><br /><br />
+
+      <label>Alamat Pengirim:</label><br />
+      <input type="text" id="cAddr" /><br /><br />
+
+      <button onclick="checkout()">Beli Via Whatsapp</button>
+      <button onclick="toggleCart()">Tutup</button>
+    </div>
+
+    <div id="products"></div>
+
+    <script>
+      console.log('menjalankan script')
+      let cart = [];
+      let allProducts = [];
+
+      async function load() {
+        console.log('menjalankna load')
+        const res = await fetch("/api/products");
+        console.log('res:', res)
+        const json = await res.json();
+        allProducts = json.data;
+        console.log(allProducts)
+
+        document.getElementById("products").innerHTML = allProducts
+          .map(
+            (p) => `
+            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+                <img src="${p.imageUrl}" width="150" alt="${p.name}" ><br>
+                <h3>${p.name}</h3>
+                <p>${p.description}</p>
+                <p>Harga: Rp ${parseInt(p.price).toLocaleString()}</p>
+                <button onclick="add(${p.id})">Tambah (+)</button>
+            </div>
+        `,
+          )
+          .join("");
+          console.log('ngambil data berhasil');
+      }
+
+      function add(id) {
+        console.log('menjalankan add')
+        const exist = cart.find((c) => c.productId === id);
+        if (exist) exist.quantity++;
+        else cart.push({ productId: id, quantity: 1 });
+        updateCount();
+        console.log('berhasil menambah data');
+      }
+
+      function updateCount() {
+        document.getElementById("count").innerText = cart.reduce(
+          (a, b) => a + b.quantity,
+          0,
+        );
+      }
+
+      function toggleCart() {
+        const m = document.getElementById("cartModal");
+        if (m.style.display === "none") {
+          console.log("display awal:", m.style.display);
+          m.style.display = 'block';
+          console.log("display akhir:", m.style.display);
+          renderCartList();
+        } else {
+          m.style.display = "none";
+        }
+      }
+
+      function renderCartList() {
+        document.getElementById("cartList").innerHTML = cart
+          .map((c) => {
+            const p = allProducts.find((x) => x.id === c.productId);
+            return `<div>
+                ${p.name} (x${c.quantity}) - Rp ${(p.price * c.quantity).toLocaleString()}
+                <div/>`;
+          })
+          .join("");
+      }
+
+      async function checkout() {
+        const name = document.getElementById("cName").value;
+        const addr = document.getElementById("cAddr").value;
+        if (!name || !addr || cart.length === 0)
+          return alert("Data belum lengkap / keranjang kosong");
+
+        const res = await fetch("/api/orders", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            customerName: name,
+            address: addr,
+            items: cart,
+          }),
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          const msg = `halo Admin, Order ID #${data.orderId}. Total: ${data.total.toLocaleString()}. Dikirim ke: ${addr}`;
+          window.location.href = `https://wa.me/6282130208960?text=${encodeURIComponent(msg)}`;
+        }
+      }
+
+      load();
+    </script>
+  </body>
+</html>

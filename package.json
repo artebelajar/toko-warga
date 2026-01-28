@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch src/index.js",
-    "start": "node src/index.js",
+    "start": "node ./index.js",
     "db:generate": "drizzle-kit generate ",
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "node src/db/seed.js"

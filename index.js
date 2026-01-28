@@ -1,9 +1,10 @@
 import { serve } from "@hono/node-server";
+import {serveStatic} from "@hono/node-server/serve-static";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import * as schema from "./db/schema.js";
+import * as schema from "./src/db/schema.js";
 import { eq, desc } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -22,6 +23,23 @@ const supabase = createClient(
 const app = new Hono();
 
 app.use("*", cors());
+
+app.post("/api/register", async (c) => {
+  try {
+  const { username, password } = await c.req.json();
+  const hashedPassword = bcrypt.hashSync(password, 10);
+  const user = await db.insert(schema.usersECommerce).values({
+    username,
+    password: hashedPassword,
+    role: "user",
+  });
+  return c.json({ success: true, message: `Registrasi berhasil ${user[0]}` }, 201);
+} catch (error) {
+  console.error(error);
+  return c.json({ success: false, message: "Registrasi gagal" }, 500);
+}
+});
+
 
 app.post("/api/login", async (c) => {
   const { username, password } = await c.req.json();
@@ -114,16 +132,20 @@ app.get("/api/products", async (c) => {
 
 app.post("/api/orders", async (c) => {
   const { customerName, address, items } = await c.req.json();
+
   try {
     const result = await db.transaction(async (tx) => {
-      const total = 0;
+      let total = 0;
 
-      const [newOrder] = await tx.insert(schema.orders).values({
-        customerName,
-        address,
-        totalAmount: total,
-        status: "pending",
-      }).returning();
+      const [newOrder] = await tx
+        .insert(schema.orders)
+        .values({
+          customerName,
+          address,
+          totalAmount: "0",
+          status: "pending",
+        })
+        .returning();
 
       for (const item of items) {
         const product = await tx.query.products.findFirst({
@@ -131,12 +153,10 @@ app.post("/api/orders", async (c) => {
         });
 
         if (!product || product.stock < item.quantity) {
-          throw new Error(
-            `Stock ${product?.name} kurang!`,
-          );
+          throw new Error(`Stock ${product?.name} kurang!`);
         }
 
-        total += (parseFloat(product.price) * item.quantity);
+        total += parseFloat(product.price) * item.quantity;
 
         await tx.insert(schema.orderItems).values({
           orderId: newOrder.id,
@@ -145,20 +165,30 @@ app.post("/api/orders", async (c) => {
           priceAtTime: product.price,
         });
 
-        await tx.schema.products.update()
-            .set({ stock: product.stock - item.quantity } )
-            .where(eq(schema.products.id, item.productId))
+        await tx
+          .update(schema.products)
+          .set({ stock: product.stock - item.quantity })
+          .where(eq(schema.products.id, item.productId));
       }
-      await tx.schema.orders.update()
-          .set({ totalAmount: total } )
-          .where(eq(schema.orders.id, newOrder.id))
+
+      await tx
+        .update(schema.orders)
+        .set({ totalAmount: total })
+        .where(eq(schema.orders.id, newOrder.id));
+
       return { orderId: newOrder.id, total };
     });
-    return c.json({ success: true, message: ...result });
+    return c.json({ success: true, ...result });
   } catch (e) {
-     return c.json({ success: false, message: "Error placing order", error: e.message });
+    return c.json({
+      success: false,
+      message: "Error placing order",
+      error: e.message,
+    });
   }
 });
+
+app.use('/*', serveStatic({root: 'src/public'}));
 
 const port = 4554;
 console.log(`Server running on http://localhost:${port}`);
