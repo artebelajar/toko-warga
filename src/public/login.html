@@ -3,51 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin</title>
+    <title>Login - Toko Warga Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Variabel & Reset --- */
+        :root {
+            --gold: #d4af37;
+            --dark-gold: #b8860b;
+            --white: #ffffff;
+            --text: #2d3436;
+            --bg: #f9f9f9;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            background-image: radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
+                              radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 40%);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: var(--text);
+        }
+
+        /* --- Login Card --- */
+        .login-card {
+            background: var(--white);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.15);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            text-align: center;
+            box-sizing: border-box;
+            animation: fadeInPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes fadeInPop {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .login-card h1 {
+            margin: 0 0 10px 0;
+            font-weight: 800;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1.8rem;
+        }
+
+        .login-card p.subtitle {
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+        }
+
+        /* --- Form Styling --- */
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            color: var(--dark-gold);
+            padding-left: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 15px;
+            border: 2px solid #eee;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            background: #fdfdfd;
+        }
+
+        input:focus {
+            border-color: var(--gold);
+            background: #fff;
+            outline: none;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+        }
+
+        /* --- Button Pop --- */
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 50px;
+            background: var(--gold);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 10px;
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        button:hover {
+            background: var(--dark-gold);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        button:active {
+            transform: scale(0.96);
+        }
+
+        /* --- Footer Link --- */
+        .footer-text {
+            margin-top: 25px;
+            font-size: 0.85rem;
+            color: #636e72;
+        }
+
+        .footer-text a {
+            color: var(--dark-gold);
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .footer-text a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>Login</h1>
-    <hr>
 
-    <form id="login-form">
-        <label for="username">Username:</label>
-        <input type="text" id="username" placeholder="Masukan Nama" required><br><br>
+    <div class="login-card">
+        <h1>Welcome</h1>
+        <p class="subtitle">Silakan masuk ke akun Toko Warga Anda</p>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" placeholder="Masukan Password" required><br><br>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Masukkan username" required>
+            </div>
 
-        <button type="submit">Masuk</button>
-    </form>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password" required>
+            </div>
 
-    <p>belum punya akun? buat <a href="./register.html">di sini</a></p>
+            <button type="submit">Masuk Sekarang</button>
+        </form>
+
+        <p class="footer-text">
+            Belum punya akun? <a href="./register.html">Buat di sini</a>
+        </p>
+    </div>
+
     <script>
         document.getElementById("login-form").addEventListener("submit", async function(e) {
             e.preventDefault();
 
-            const res = await fetch("/api/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    username: document.getElementById("username").value,
-                    password: document.getElementById("password").value
-                })
-            });
+            // Beri efek loading sederhana pada tombol
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerText = "Memproses...";
+            btn.style.opacity = "0.7";
+            btn.disabled = true;
 
-            const data = await res.json();
-            console.log(data);
+            try {
+                const res = await fetch("/api/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username: document.getElementById("username").value,
+                        password: document.getElementById("password").value
+                    })
+                });
 
-            if (data.success) {
-                localStorage.setItem("token", data.token);
-                if(data.message === 'admin'){
-                    window.location.href = `/admin.html`;
+                const data = await res.json();
+                console.log(data);
+
+                if (data.success) {
+                    localStorage.setItem("token", data.token);
+                    if(data.message === 'admin'){
+                        window.location.href = `/admin.html`;
+                    } else {
+                        window.location.href = "/index.html";
+                    }
                 } else {
-                    window.location.href = "/index.html";
+                    alert("❌ " + data.message);
+                    // Kembalikan tombol jika gagal
+                    btn.innerText = originalText;
+                    btn.style.opacity = "1";
+                    btn.disabled = false;
                 }
-                // console.log(data.message)
-            } else {
-                alert(data.message);
+            } catch (err) {
+                alert("Terjadi kesalahan koneksi.");
+                btn.innerText = originalText;
+                btn.style.opacity = "1";
+                btn.disabled = false;
             }
         });
     </script>

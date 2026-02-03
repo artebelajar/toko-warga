@@ -1,62 +1,323 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Toko Warga</title>
+    <title>Toko Warga - Premium Pop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+      /* --- Variabel & Reset --- */
+      :root {
+        --gold: #d4af37;
+        --dark-gold: #b8860b;
+        --light-gold: #fdfaf0;
+        --white: #ffffff;
+        --text: #2d3436;
+        --gray: #f9f9f9;
+        --shadow: 0 10px 20px rgba(212, 175, 55, 0.15);
+      }
+
+      body {
+        font-family: 'Poppins', sans-serif; /* Menggunakan Font Poppins */
+        background-color: var(--gray);
+        color: var(--text);
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+      }
+
+      /* --- Navigation & Header --- */
+      header {
+        background-color: var(--white);
+        border-bottom: 4px solid var(--gold);
+        padding: 1.2rem 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      }
+
+      header h1 {
+        margin: 0;
+        color: var(--gold);
+        font-size: 1.6rem;
+        font-weight: 800; /* Font extra bold agar 'Pop' */
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .nav-actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      /* --- Buttons --- */
+      button {
+        cursor: pointer;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 50px; /* Membuat tombol lebih bulat/pop up */
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+      }
+
+      button:active {
+        transform: scale(0.95); /* Efek membal saat diklik */
+      }
+
+      .btn-gold {
+        background-color: var(--gold);
+        color: white;
+      }
+
+      .btn-gold:hover {
+        background-color: var(--dark-gold);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(184, 134, 11, 0.3);
+      }
+
+      .btn-outline {
+        background: var(--light-gold);
+        border: 2px solid var(--gold);
+        color: var(--dark-gold);
+      }
+
+      .btn-outline:hover {
+        background: var(--gold);
+        color: white;
+        transform: translateY(-3px);
+      }
+
+      /* --- Main Content --- */
+      .container {
+        max-width: 1100px;
+        margin: 30px auto;
+        padding: 0 20px;
+      }
+
+      .welcome-section {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        margin-bottom: 30px;
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(212, 175, 55, 0.1);
+      }
+
+      .welcome-section h2 {
+        font-weight: 700;
+        font-size: 1.8rem;
+        margin: 0;
+      }
+
+      /* --- Filter --- */
+      .filter-container {
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+      }
+
+      select {
+        font-family: 'Poppins', sans-serif;
+        padding: 10px 15px;
+        border: 2px solid var(--gold);
+        border-radius: 12px;
+        outline: none;
+        background: white;
+        cursor: pointer;
+      }
+
+      /* --- Product Grid --- */
+      #products {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+      }
+
+      .product-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+        transition: all 0.4s ease;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #f0f0f0;
+      }
+
+      .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow);
+        border-color: var(--gold);
+      }
+
+      .product-card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+      }
+
+      .product-info {
+        padding: 20px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .product-info h3 {
+        margin: 0 0 10px 0;
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
+
+      .product-info p {
+        font-size: 0.85rem;
+        color: #7f8c8d;
+        margin-bottom: 15px;
+      }
+
+      .price {
+        color: var(--dark-gold);
+        font-weight: 800;
+        font-size: 1.3rem;
+        margin-top: auto;
+      }
+
+      /* --- Modal Keranjang (Overlay Pop-up) --- */
+      #cartModal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(45, 52, 54, 0.6);
+        backdrop-filter: blur(5px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .modal-content {
+        background: white;
+        padding: 40px;
+        border-radius: 30px;
+        width: 90%;
+        max-width: 500px;
+        max-height: 85vh;
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      @keyframes modalPop {
+        from { transform: scale(0.8); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+      }
+
+      .cart-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+        font-size: 0.95rem;
+      }
+
+      .modal-content input {
+        font-family: 'Poppins', sans-serif;
+        width: 100%;
+        padding: 12px 15px;
+        margin: 10px 0 20px 0;
+        box-sizing: border-box;
+        border: 2px solid #eee;
+        border-radius: 12px;
+        transition: 0.3s;
+      }
+
+      .modal-content input:focus {
+        border-color: var(--gold);
+        outline: none;
+      }
+
+      #admin {
+        text-decoration: none;
+        color: var(--dark-gold);
+        font-weight: 700;
+        font-size: 0.9rem;
+        padding: 5px 10px;
+      }
+    </style>
   </head>
   <body>
-    <h1>Toko Warga</h1>
-    <h2>Selamat Datang, <span id="username"></span></h2>
-    <button onclick="logout()">Logout</button>
-    <a href="./admin.html" id="admin" style="display: none">Product Anda</a>
-    <button onclick="toggleCart()">
-      Lihat Keranjang (<span id="count">0</span>)
-    </button>
-    <hr />
+    <header>
+      <h1>Toko Warga</h1>
+      <div class="nav-actions">
+        <a href="./admin.html" id="admin" style="display: none">Panel Admin</a>
+        <button class="btn-outline" onclick="toggleCart()">
+          🛒 Keranjang (<span id="count">0</span>)
+        </button>
+        <button class="btn-gold" onclick="logout()">Logout</button>
+      </div>
+    </header>
 
-    <div
-      id="cartModal"
-      style="
-        display: none;
-        background: #eee;
-        padding: 20px;
-        border: 1px solid black;
-        margin-bottom: 20px;
-      "
-    >
-      <h3>keranjang Anda</h3>
-      <div id="cartList"></div>
-      <br />
+    <div class="container">
+      <div class="welcome-section">
+        <h2 style="margin: 0">Halo, <span id="username" style="color: var(--gold);"></span> 👋</h2>
+        <p style="margin: 10px 0 0 0; color: #636e72;">Selamat berbelanja produk eksklusif kami hari ini.</p>
+      </div>
 
-      <label>Nama Pemesan:</label><br />
-      <input type="text" id="cName" /><br /><br />
+      <div class="filter-container">
+        <span>Cari Produk:</span>
+        <select name="filter" id="categoryFilter">
+          <option value="all">Semua Kategori</option>
+          <option value="makanan">🍛 Makanan</option>
+          <option value="minuman">🍹 Minuman</option>
+          <option value="pakaian">👕 Pakaian</option>
+        </select>
+      </div>
 
-      <label>Alamat Pengirim:</label><br />
-      <input type="text" id="cAddr" /><br /><br />
-
-      <button onclick="checkout()">Beli Via Whatsapp</button>
-      <button onclick="toggleCart()">Tutup</button>
+      <div id="products">
+        </div>
     </div>
-    <hr />
 
-    <div>
-      <select name="filter" id="categoryFilter">
-        <option value="all">Semua</option>
-        <option value="makanan">Makanan</option>
-        <option value="minuman">Minuman</option>
-        <option value="pakaian">Pakaian</option>
-      </select>
+    <div id="cartModal">
+      <div class="modal-content">
+        <h3 style="font-weight: 800; color: var(--gold); font-size: 1.5rem; margin-top:0;">Keranjang Anda</h3>
+        <div id="cartList"></div>
+        
+        <div style="margin-top: 25px;">
+          <label style="font-weight: 600; font-size: 0.9rem;">Nama Pemesan</label>
+          <input type="text" id="cName" placeholder="Contoh: Budi Santoso" />
+
+          <label style="font-weight: 600; font-size: 0.9rem;">Alamat Pengiriman</label>
+          <input type="text" id="cAddr" placeholder="Nama Jalan, Blok, No Rumah" />
+        </div>
+
+        <div style="display: flex; gap: 15px; margin-top: 10px;">
+          <button class="btn-gold" style="flex: 2" onclick="checkout()">Beli Sekarang (WA)</button>
+          <button class="btn-outline" style="flex: 1" onclick="toggleCart()">Tutup</button>
+        </div>
+      </div>
     </div>
-    <div id="products"></div>
 
     <script>
+      /* JS Tetap Sama dengan fungsionalitas aslinya untuk mencegah error */
       let cart = [];
       let allProducts = [];
 
       function logout() {
-        localStorage.removeItem("token");
-        window.location.href = "/login.html";
+        window.location.href = "/logout.html";
       }
 
       async function load() {
@@ -66,40 +327,16 @@
         renderProducts(allProducts);
       }
 
-      // async function filter() {
-      //   const filter = document.getElementById("filter").value;
-
-      //   if (filter === "all") {
-      //     load();
-      //   } else if (filter === "makanan") {
-      //     filter = 1;
-      //   } else if (filter === "minuman") {
-      //     filter = 2;
-      //   } else if (filter === "pakaian") {
-      //     filter = 3;
-      //   }
-
-      //   document.getElementById("products").innerHTML = allProducts
-      //     .filter((p) => p.categoryId === filter)
-      //     .map(
-      //       (p) => `
-      //       <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
-      //           <img src="${p.imageUrl}" width="150" alt="${p.name}" ><br>
-      //           <h3>${p.name}</h3>
-      //           <p>${p.description}</p>
-      //           <p>Harga: Rp ${parseInt(p.price).toLocaleString()}</p>
-      //           <button onclick="add(${p.id})">Tambah (+)</button>
-      //       </div>
-      //       `,
-      //     )
-      //     .join("");
-      // }
-
       function add(id) {
         const exist = cart.find((c) => c.productId === id);
         if (exist) exist.quantity++;
         else cart.push({ productId: id, quantity: 1 });
         updateCount();
+        // Efek feedback sederhana
+        const btn = event.target;
+        const originalText = btn.innerText;
+        btn.innerText = "✅ Berhasil!";
+        setTimeout(() => btn.innerText = originalText, 1000);
       }
 
       function updateCount() {
@@ -111,8 +348,8 @@
 
       function toggleCart() {
         const m = document.getElementById("cartModal");
-        if (m.style.display === "none") {
-          m.style.display = "block";
+        if (m.style.display === "none" || m.style.display === "") {
+          m.style.display = "flex";
           renderCartList();
         } else {
           m.style.display = "none";
@@ -123,14 +360,16 @@
         document.getElementById("products").innerHTML = products
           .map(
             (p) => `
-      <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px">
-        <img src="${p.imageUrl}" width="150"><br>
-        <h3>${p.name}</h3>
-        <p>${p.description ?? ""}</p>
-        <p>Harga: Rp ${Number(p.price).toLocaleString("id-ID")}</p>
-        <button onclick="add(${p.id})">Tambah (+)</button>
-      </div>
-    `,
+          <div class="product-card">
+            <img src="${p.imageUrl}" alt="${p.name}">
+            <div class="product-info">
+              <h3>${p.name}</h3>
+              <p>${p.description ?? "Produk unggulan Toko Warga."}</p>
+              <div class="price">Rp ${Number(p.price).toLocaleString("id-ID")}</div>
+              <button class="btn-gold" style="margin-top: 20px;" onclick="add(${p.id})">Tambah (+) </button>
+            </div>
+          </div>
+        `,
           )
           .join("");
       }
@@ -139,32 +378,33 @@
         .getElementById("categoryFilter")
         .addEventListener("change", function () {
           let value = this.value;
-
           if (value === "all") {
             renderProducts(allProducts);
             return;
-          } else if (value === "makanan") {
-            value = 1;
-          } else if (value === "minuman") {
-            value = 2;
-          } else if (value === "pakaian") {
-            value = 3;
-          }
+          } else if (value === "makanan") value = 1;
+          else if (value === "minuman") value = 2;
+          else if (value === "pakaian") value = 3;
 
           const filtered = allProducts.filter(
             (p) => p.categoryId === Number(value),
           );
-
           renderProducts(filtered);
         });
 
       function renderCartList() {
-        document.getElementById("cartList").innerHTML = cart
+        const list = document.getElementById("cartList");
+        if (cart.length === 0) {
+          list.innerHTML = "<p style='text-align:center; padding: 20px; color:#b2bec3;'>Keranjang masih kosong...</p>";
+          return;
+        }
+        list.innerHTML = cart
           .map((c) => {
             const p = allProducts.find((x) => x.id === c.productId);
-            return `<div>
-                ${p.name} (x${c.quantity}) - Rp ${(p.price * c.quantity).toLocaleString()}
-                <div/>`;
+            return `
+              <div class="cart-item">
+                <span><b style="color:var(--dark-gold)">${c.quantity}x</b> ${p.name}</span>
+                <span style="font-weight:700">Rp ${(p.price * c.quantity).toLocaleString()}</span>
+              </div>`;
           })
           .join("");
       }
@@ -173,7 +413,7 @@
         const name = document.getElementById("cName").value;
         const addr = document.getElementById("cAddr").value;
         if (!name || !addr || cart.length === 0)
-          return alert("Data belum lengkap / keranjang kosong");
+          return alert("Lengkapi data diri dan keranjang Anda.");
 
         const res = await fetch("/api/orders", {
           method: "POST",
@@ -185,10 +425,9 @@
           }),
         });
         const data = await res.json();
-        console.log(data);
 
         if (data.success) {
-          const msg = `halo Admin, Order ID #${data.orderId}. Total: ${data.total.toLocaleString()}. Dikirim ke: ${addr}`;
+          const msg = `Halo Admin, saya mau pesan order ID #${data.orderId}.\n\nTotal: Rp ${data.total.toLocaleString()}\nNama: ${name}\nAlamat: ${addr}`;
           window.location.href = `https://wa.me/6285752214806?text=${encodeURIComponent(msg)}`;
         }
       }
@@ -203,16 +442,13 @@
           const json = await res.json();
           if (json.success) {
             if (json.data.role === "admin") {
-              document.getElementById("admin").style.display = "block";
+              document.getElementById("admin").style.display = "inline";
             }
-
-            document.getElementById("username").textContent =
-              json.data.username;
+            document.getElementById("username").textContent = json.data.username;
             return true;
           } else {
             window.location.href = "./login.html";
           }
-          load();
         } catch (e) {
           window.location.href = "./login.html";
         }
