@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toko Warga - Premium Pop</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="/assets/logo.png" type="image/png" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        <img src="./assets/logo.png" alt="logo-toko-warga" class="logo" />
+        <h1>Toko Warga</h1>
+      </div>
+      <div class="nav-actions">
+        <a href="/admin/" id="admin" style="display: none">Panel Admin</a>
+        <button class="btn-outline" id="btn-cart">
+          🛒 Keranjang (<span id="count">0</span>)
+        </button>
+        <button class="btn-gold" id="logout">Logout</button>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="welcome-section">
+        <h2 style="margin: 0">
+          Halo, <span id="username" style="color: var(--gold)"></span> 👋
+        </h2>
+        <p style="margin: 10px 0 0 0; color: #636e72">
+          Selamat berbelanja produk eksklusif kami hari ini.
+        </p>
+      </div>
+
+      <div class="filter-container">
+        <span>Cari Produk:</span>
+        <select name="filter" id="categoryFilter">
+          <option value="all">Semua Kategori</option>
+          <option value="makanan">🍛 Makanan</option>
+          <option value="minuman">🍹 Minuman</option>
+          <option value="pakaian">👕 Pakaian</option>
+        </select>
+      </div>
+
+      <div id="products"></div>
+    </div>
+
+    <div id="cartSidebar" class="cart-sidebar active">
+      <div class="sidebar-header">
+        <h3>🛒 Keranjang Anda</h3>
+        <button class="close-sidebar" id="close-sidebar">×</button>
+      </div>
+
+      <div class="sidebar-body">
+        <div id="cartList"></div>
+
+        <div class="checkout-form">
+          <label>Nama Pemesan</label>
+          <input type="text" id="cName" placeholder="Contoh: Budi Santoso" />
+
+          <label>Alamat Pengiriman</label>
+          <input
+            type="text"
+            id="cAddr"
+            placeholder="Nama Jalan, Blok, No Rumah"
+          />
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <button class="btn-gold w-100" id="btn-checkout">
+          Beli Sekarang (WA)
+        </button>
+        <button
+          class="btn-outline w-100"
+          style="margin-top: 10px"
+          id="btn-continue"
+        >
+          Lanjut Belanja
+        </button>
+      </div>
+    </div>
+
+    <div id="sidebarOverlay" class="sidebar-overlay active"></div>
+
+    <script type="module" src="script.js"></script>
+  </body>
+</html>

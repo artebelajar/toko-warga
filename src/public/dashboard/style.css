@@ -1,0 +1,331 @@
+/* --- Variabel & Reset --- */
+:root {
+  --gold: #d4af37;
+  --dark-gold: #b8860b;
+  --light-gold: #fdfaf0;
+  --white: #ffffff;
+  --text: #2d3436;
+  --gray: #f9f9f9;
+  --shadow: 0 10px 20px rgba(212, 175, 55, 0.15);
+}
+
+body {
+  font-family: "Poppins", sans-serif; /* Menggunakan Font Poppins */
+  background-color: var(--gray);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* --- Navigation & Header --- */
+header {
+  background-color: var(--white);
+  border-bottom: 4px solid var(--gold);
+  padding: 1.2rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+header h1 {
+  margin: 0;
+  color: var(--gold);
+  font-size: 1.6rem;
+  font-weight: 800; /* Font extra bold agar 'Pop' */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* --- Logo Header --- */
+.logo {
+  height: 50px; /* ukuran logo */
+  width: auto; /* jaga proporsi */
+  margin-right: 12px; /* jarak ke tulisan */
+  transition: all 0.25s ease;
+}
+
+.logo:hover {
+  transform: scale(1.35);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* jarak logo ke h1 */
+}
+
+/* Biar logo + judul sejajar rapi */
+header {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* jarak logo ke h1 */
+}
+
+.nav-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* --- Buttons --- */
+button {
+  cursor: pointer;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50px; /* Membuat tombol lebih bulat/pop up */
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+}
+
+button:active {
+  transform: scale(0.95); /* Efek membal saat diklik */
+}
+
+.btn-gold {
+  background-color: var(--gold);
+  color: white;
+}
+
+.btn-gold:hover {
+  background-color: var(--dark-gold);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(184, 134, 11, 0.3);
+}
+
+.btn-outline {
+  background: var(--light-gold);
+  border: 2px solid var(--gold);
+  color: var(--dark-gold);
+}
+
+.btn-outline:hover {
+  background: var(--gold);
+  color: white;
+  transform: translateY(-3px);
+}
+
+/* --- Main Content --- */
+.container {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.welcome-section {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.welcome-section h2 {
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+/* --- Filter --- */
+.filter-container {
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+select {
+  font-family: "Poppins", sans-serif;
+  padding: 10px 15px;
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  outline: none;
+  background: white;
+  cursor: pointer;
+}
+
+select option {
+  font-family: "Poppins", sans-serif;
+}
+
+/* --- Product Grid --- */
+#products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.product-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.03);
+  transition: all 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #f0f0f0;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow);
+  border-color: var(--gold);
+}
+
+.product-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-info h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.product-info p {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  margin-bottom: 15px;
+}
+
+.price {
+  color: var(--dark-gold);
+  font-weight: 800;
+  font-size: 1.3rem;
+  margin-top: auto;
+}
+
+/* --- Sidebar Keranjang (Drawer) --- */
+.cart-sidebar {
+  position: fixed;
+  top: 0;
+  right: -400px; /* Sembunyi di luar layar kanan */
+  width: 380px;
+  height: 100%;
+  background: var(--white);
+  z-index: 1001;
+  box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+  display: flex;
+  flex-direction: column;
+  visibility: hidden;
+}
+
+/* Class saat sidebar aktif */
+.cart-sidebar.active {
+  visibility: visible;
+  right: 0;
+}
+
+.sidebar-header {
+  padding: 25px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-header h3 {
+  margin: 0;
+  font-weight: 800;
+  color: var(--gold);
+}
+
+.close-sidebar {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #b2bec3;
+  cursor: pointer;
+  box-shadow: none;
+  padding: 0;
+}
+
+.sidebar-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 25px;
+}
+
+.sidebar-footer {
+  padding: 25px;
+  border-top: 1px solid #eee;
+  background: #fafafa;
+}
+
+/* Overlay Background */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Form Styles di dalam Sidebar */
+.checkout-form label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-top: 20px;
+}
+
+.checkout-form input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border: 2px solid #eee;
+  border-radius: 12px;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.cart-sidebar.active {
+  right: 0 !important;
+}
+
+.sidebar-overlay.active {
+  display: block !important;
+  opacity: 1 !important;
+}
+
+#admin {
+  text-decoration: none;
+  color: var(--dark-gold);
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 5px 10px;
+}

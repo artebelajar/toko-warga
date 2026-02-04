@@ -3,460 +3,166 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Toko Warga - Premium Pop</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <title>Checking Session - Toko Warga</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-      /* --- Variabel & Reset --- */
       :root {
         --gold: #d4af37;
         --dark-gold: #b8860b;
         --light-gold: #fdfaf0;
         --white: #ffffff;
         --text: #2d3436;
-        --gray: #f9f9f9;
-        --shadow: 0 10px 20px rgba(212, 175, 55, 0.15);
+        --bg: #f9f9f9;
       }
 
       body {
-        font-family: 'Poppins', sans-serif; /* Menggunakan Font Poppins */
-        background-color: var(--gray);
-        color: var(--text);
-        margin: 0;
-        padding: 0;
-        line-height: 1.6;
-      }
-
-      /* --- Navigation & Header --- */
-      header {
-        background-color: var(--white);
-        border-bottom: 4px solid var(--gold);
-        padding: 1.2rem 5%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      }
-
-      header h1 {
-        margin: 0;
-        color: var(--gold);
-        font-size: 1.6rem;
-        font-weight: 800; /* Font extra bold agar 'Pop' */
-        text-transform: uppercase;
-        letter-spacing: 1px;
-      }
-
-      .nav-actions {
-        display: flex;
-        gap: 12px;
-        align-items: center;
-      }
-
-      /* --- Buttons --- */
-      button {
-        cursor: pointer;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 50px; /* Membuat tombol lebih bulat/pop up */
         font-family: 'Poppins', sans-serif;
-        font-weight: 600;
-        font-size: 0.9rem;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.07);
-      }
-
-      button:active {
-        transform: scale(0.95); /* Efek membal saat diklik */
-      }
-
-      .btn-gold {
-        background-color: var(--gold);
-        color: white;
-      }
-
-      .btn-gold:hover {
-        background-color: var(--dark-gold);
-        transform: translateY(-3px);
-        box-shadow: 0 6px 15px rgba(184, 134, 11, 0.3);
-      }
-
-      .btn-outline {
-        background: var(--light-gold);
-        border: 2px solid var(--gold);
-        color: var(--dark-gold);
-      }
-
-      .btn-outline:hover {
-        background: var(--gold);
-        color: white;
-        transform: translateY(-3px);
-      }
-
-      /* --- Main Content --- */
-      .container {
-        max-width: 1100px;
-        margin: 30px auto;
-        padding: 0 20px;
-      }
-
-      .welcome-section {
-        background: white;
-        padding: 30px;
-        border-radius: 20px;
-        margin-bottom: 30px;
-        box-shadow: var(--shadow);
-        border: 1px solid rgba(212, 175, 55, 0.1);
-      }
-
-      .welcome-section h2 {
-        font-weight: 700;
-        font-size: 1.8rem;
+        background-color: var(--bg);
         margin: 0;
-      }
-
-      /* --- Filter --- */
-      .filter-container {
-        margin-bottom: 25px;
         display: flex;
-        align-items: center;
-        gap: 10px;
-        font-weight: 600;
-      }
-
-      select {
-        font-family: 'Poppins', sans-serif;
-        padding: 10px 15px;
-        border: 2px solid var(--gold);
-        border-radius: 12px;
-        outline: none;
-        background: white;
-        cursor: pointer;
-      }
-
-      /* --- Product Grid --- */
-      #products {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 25px;
-      }
-
-      .product-card {
-        background: white;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.03);
-        transition: all 0.4s ease;
-        display: flex;
-        flex-direction: column;
-        border: 1px solid #f0f0f0;
-      }
-
-      .product-card:hover {
-        transform: translateY(-10px);
-        box-shadow: var(--shadow);
-        border-color: var(--gold);
-      }
-
-      .product-card img {
-        width: 100%;
-        height: 220px;
-        object-fit: cover;
-      }
-
-      .product-info {
-        padding: 20px;
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .product-info h3 {
-        margin: 0 0 10px 0;
-        font-size: 1.2rem;
-        font-weight: 700;
-      }
-
-      .product-info p {
-        font-size: 0.85rem;
-        color: #7f8c8d;
-        margin-bottom: 15px;
-      }
-
-      .price {
-        color: var(--dark-gold);
-        font-weight: 800;
-        font-size: 1.3rem;
-        margin-top: auto;
-      }
-
-      /* --- Modal Keranjang (Overlay Pop-up) --- */
-      #cartModal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(45, 52, 54, 0.6);
-        backdrop-filter: blur(5px);
-        display: none;
         justify-content: center;
         align-items: center;
-        z-index: 1000;
+        height: 100vh;
+        overflow: hidden;
       }
 
-      .modal-content {
-        background: white;
-        padding: 40px;
-        border-radius: 30px;
-        width: 90%;
-        max-width: 500px;
-        max-height: 85vh;
-        overflow-y: auto;
+      /* --- Background Glow --- */
+      .glow {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+        z-index: 0;
+      }
+
+      /* --- Card Pop Up --- */
+      .status-card {
         position: relative;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 1;
+        background: var(--white);
+        padding: 50px 40px;
+        border-radius: 40px;
+        box-shadow: 0 20px 50px rgba(212, 175, 55, 0.15);
+        text-align: center;
+        max-width: 380px;
+        width: 90%;
+        border: 1px solid rgba(212, 175, 55, 0.1);
+        animation: cardPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       }
 
-      @keyframes modalPop {
+      @keyframes cardPop {
         from { transform: scale(0.8); opacity: 0; }
         to { transform: scale(1); opacity: 1; }
       }
 
-      .cart-item {
-        display: flex;
-        justify-content: space-between;
-        padding: 15px 0;
-        border-bottom: 1px solid #eee;
-        font-size: 0.95rem;
+      h1 {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: var(--gold);
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
       }
 
-      .modal-content input {
-        font-family: 'Poppins', sans-serif;
-        width: 100%;
-        padding: 12px 15px;
-        margin: 10px 0 20px 0;
-        box-sizing: border-box;
-        border: 2px solid #eee;
-        border-radius: 12px;
-        transition: 0.3s;
-      }
-
-      .modal-content input:focus {
-        border-color: var(--gold);
-        outline: none;
-      }
-
-      #admin {
-        text-decoration: none;
-        color: var(--dark-gold);
-        font-weight: 700;
+      p {
+        color: #7f8c8d;
         font-size: 0.9rem;
-        padding: 5px 10px;
+        margin-bottom: 30px;
+      }
+
+      /* --- Animated Pop Loader --- */
+      .loader {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .loader span {
+        width: 15px;
+        height: 15px;
+        background: var(--gold);
+        border-radius: 50%;
+        display: inline-block;
+        animation: bounce 0.6s infinite alternate;
+      }
+
+      .loader span:nth-child(2) { animation-delay: 0.2s; }
+      .loader span:nth-child(3) { animation-delay: 0.4s; }
+
+      @keyframes bounce {
+        from { transform: translateY(0); opacity: 1; }
+        to { transform: translateY(-15px); opacity: 0.4; background: var(--dark-gold); }
+      }
+
+      /* --- Dots Text --- */
+      .dots span {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--gold);
+        animation: blink 1.4s infinite;
+      }
+
+      .dots span:nth-child(2) { animation-delay: 0.2s; }
+      .dots span:nth-child(3) { animation-delay: 0.4s; }
+
+      @keyframes blink {
+        0% { opacity: 0; }
+        50% { opacity: 1; }
+        100% { opacity: 0; }
       }
     </style>
   </head>
+
   <body>
-    <header>
-      <h1>Toko Warga</h1>
-      <div class="nav-actions">
-        <a href="./admin.html" id="admin" style="display: none">Panel Admin</a>
-        <button class="btn-outline" onclick="toggleCart()">
-          🛒 Keranjang (<span id="count">0</span>)
-        </button>
-        <button class="btn-gold" onclick="logout()">Logout</button>
-      </div>
-    </header>
+    <div class="glow"></div>
 
-    <div class="container">
-      <div class="welcome-section">
-        <h2 style="margin: 0">Halo, <span id="username" style="color: var(--gold);"></span> 👋</h2>
-        <p style="margin: 10px 0 0 0; color: #636e72;">Selamat berbelanja produk eksklusif kami hari ini.</p>
+    <div class="status-card">
+      <h1>Security Check</h1>
+      <p>Memeriksa status login Anda...</p>
+
+      <div class="loader">
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
 
-      <div class="filter-container">
-        <span>Cari Produk:</span>
-        <select name="filter" id="categoryFilter">
-          <option value="all">Semua Kategori</option>
-          <option value="makanan">🍛 Makanan</option>
-          <option value="minuman">🍹 Minuman</option>
-          <option value="pakaian">👕 Pakaian</option>
-        </select>
-      </div>
-
-      <div id="products">
-        </div>
-    </div>
-
-    <div id="cartModal">
-      <div class="modal-content">
-        <h3 style="font-weight: 800; color: var(--gold); font-size: 1.5rem; margin-top:0;">Keranjang Anda</h3>
-        <div id="cartList"></div>
-        
-        <div style="margin-top: 25px;">
-          <label style="font-weight: 600; font-size: 0.9rem;">Nama Pemesan</label>
-          <input type="text" id="cName" placeholder="Contoh: Budi Santoso" />
-
-          <label style="font-weight: 600; font-size: 0.9rem;">Alamat Pengiriman</label>
-          <input type="text" id="cAddr" placeholder="Nama Jalan, Blok, No Rumah" />
-        </div>
-
-        <div style="display: flex; gap: 15px; margin-top: 10px;">
-          <button class="btn-gold" style="flex: 2" onclick="checkout()">Beli Sekarang (WA)</button>
-          <button class="btn-outline" style="flex: 1" onclick="toggleCart()">Tutup</button>
-        </div>
+      <div class="dots" style="margin-top: 10px;">
+        <span style="font-size: 0.8rem; color: #bbb; letter-spacing: 2px;">MOHON TUNGGU</span>
       </div>
     </div>
 
     <script>
-      /* JS Tetap Sama dengan fungsionalitas aslinya untuk mencegah error */
-      let cart = [];
-      let allProducts = [];
-
-      function logout() {
-        window.location.href = "/logout.html";
-      }
-
-      async function load() {
-        const res = await fetch("/api/products");
-        const json = await res.json();
-        allProducts = json.data;
-        renderProducts(allProducts);
-      }
-
-      function add(id) {
-        const exist = cart.find((c) => c.productId === id);
-        if (exist) exist.quantity++;
-        else cart.push({ productId: id, quantity: 1 });
-        updateCount();
-        // Efek feedback sederhana
-        const btn = event.target;
-        const originalText = btn.innerText;
-        btn.innerText = "✅ Berhasil!";
-        setTimeout(() => btn.innerText = originalText, 1000);
-      }
-
-      function updateCount() {
-        document.getElementById("count").innerText = cart.reduce(
-          (a, b) => a + b.quantity,
-          0,
-        );
-      }
-
-      function toggleCart() {
-        const m = document.getElementById("cartModal");
-        if (m.style.display === "none" || m.style.display === "") {
-          m.style.display = "flex";
-          renderCartList();
-        } else {
-          m.style.display = "none";
-        }
-      }
-
-      function renderProducts(products) {
-        document.getElementById("products").innerHTML = products
-          .map(
-            (p) => `
-          <div class="product-card">
-            <img src="${p.imageUrl}" alt="${p.name}">
-            <div class="product-info">
-              <h3>${p.name}</h3>
-              <p>${p.description ?? "Produk unggulan Toko Warga."}</p>
-              <div class="price">Rp ${Number(p.price).toLocaleString("id-ID")}</div>
-              <button class="btn-gold" style="margin-top: 20px;" onclick="add(${p.id})">Tambah (+) </button>
-            </div>
-          </div>
-        `,
-          )
-          .join("");
-      }
-
-      document
-        .getElementById("categoryFilter")
-        .addEventListener("change", function () {
-          let value = this.value;
-          if (value === "all") {
-            renderProducts(allProducts);
-            return;
-          } else if (value === "makanan") value = 1;
-          else if (value === "minuman") value = 2;
-          else if (value === "pakaian") value = 3;
-
-          const filtered = allProducts.filter(
-            (p) => p.categoryId === Number(value),
-          );
-          renderProducts(filtered);
-        });
-
-      function renderCartList() {
-        const list = document.getElementById("cartList");
-        if (cart.length === 0) {
-          list.innerHTML = "<p style='text-align:center; padding: 20px; color:#b2bec3;'>Keranjang masih kosong...</p>";
-          return;
-        }
-        list.innerHTML = cart
-          .map((c) => {
-            const p = allProducts.find((x) => x.id === c.productId);
-            return `
-              <div class="cart-item">
-                <span><b style="color:var(--dark-gold)">${c.quantity}x</b> ${p.name}</span>
-                <span style="font-weight:700">Rp ${(p.price * c.quantity).toLocaleString()}</span>
-              </div>`;
-          })
-          .join("");
-      }
-
-      async function checkout() {
-        const name = document.getElementById("cName").value;
-        const addr = document.getElementById("cAddr").value;
-        if (!name || !addr || cart.length === 0)
-          return alert("Lengkapi data diri dan keranjang Anda.");
-
-        const res = await fetch("/api/orders", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            customerName: name,
-            address: addr,
-            items: cart,
-          }),
-        });
-        const data = await res.json();
-
-        if (data.success) {
-          const msg = `Halo Admin, saya mau pesan order ID #${data.orderId}.\n\nTotal: Rp ${data.total.toLocaleString()}\nNama: ${name}\nAlamat: ${addr}`;
-          window.location.href = `https://wa.me/6285752214806?text=${encodeURIComponent(msg)}`;
-        }
-      }
-
-      async function checkAuth() {
-        try {
-          const res = await fetch("/api/me", {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          });
-          const json = await res.json();
-          if (json.success) {
-            if (json.data.role === "admin") {
-              document.getElementById("admin").style.display = "inline";
-            }
-            document.getElementById("username").textContent = json.data.username;
-            return true;
-          } else {
-            window.location.href = "./login.html";
-          }
-        } catch (e) {
-          window.location.href = "./login.html";
-        }
-        return false;
-      }
-
       (async () => {
-        if (await checkAuth()) load();
+        const startTime = Date.now();
+        const minDelay = 1500; // Minimal tunggu 1.5 detik agar user bisa lihat animasi
+
+        try {
+          // 1. Cek Sesi ke API
+          const response = await fetch("/api/me", { method: "GET" });
+          const { success } = await response.json();
+
+          // 2. Hitung sisa waktu delay agar tidak terlalu cepat redirect
+          const elapsedTime = Date.now() - startTime;
+          const remainingTime = Math.max(0, minDelay - elapsedTime);
+
+          setTimeout(() => {
+            if (response.ok && success) {
+              window.location.href = "/dashboard/";
+            } else {
+              window.location.href = "/login/";
+            }
+          }, remainingTime);
+
+        } catch (error) {
+          console.error("error checking auth status:", error);
+          
+          // Jika error, tetap beri delay sedikit sebelum redirect ke login
+          setTimeout(() => {
+            window.location.href = "/login/";
+          }, minDelay);
+        }
       })();
     </script>
   </body>

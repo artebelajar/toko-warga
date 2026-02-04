@@ -1,0 +1,149 @@
+/* --- Variabel & Reset --- */
+:root {
+  --gold: #d4af37;
+  --dark-gold: #b8860b;
+  --white: #ffffff;
+  --text: #2d3436;
+  --bg: #f9f9f9;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(212, 175, 55, 0.05) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(212, 175, 55, 0.05) 0%,
+      transparent 40%
+    );
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: var(--text);
+}
+
+/* --- Login Card --- */
+.login-card {
+  background: var(--white);
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  border-radius: 30px;
+  box-shadow: 0 15px 35px rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  text-align: center;
+  box-sizing: border-box;
+  animation: fadeInPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes fadeInPop {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.login-card h1 {
+  margin: 0 0 10px 0;
+  font-weight: 800;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1.8rem;
+}
+
+.login-card p.subtitle {
+  color: #777;
+  font-size: 0.9rem;
+  margin-bottom: 30px;
+}
+
+/* --- Form Styling --- */
+.form-group {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+  color: var(--dark-gold);
+  padding-left: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 15px;
+  border: 2px solid #eee;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  background: #fdfdfd;
+}
+
+input:focus {
+  border-color: var(--gold);
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+}
+
+/* --- Button Pop --- */
+button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 50px;
+  background: var(--gold);
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  margin-top: 10px;
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+}
+
+button:hover {
+  background: var(--dark-gold);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(212, 175, 55, 0.4);
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+/* --- Footer Link --- */
+.footer-text {
+  margin-top: 25px;
+  font-size: 0.85rem;
+  color: #636e72;
+}
+
+.footer-text a {
+  color: var(--dark-gold);
+  text-decoration: none;
+  font-weight: 700;
+  transition: 0.3s;
+}
+
+.footer-text a:hover {
+  text-decoration: underline;
+}

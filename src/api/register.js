@@ -9,7 +9,6 @@ try {
     const user = await db.insert(schema.usersECommerce).values({
       username,
       password: hashedPassword,
-      role: "user",
     });
     return c.json(
       { success: true, message: `Registrasi berhasil ${user[0]}` },
