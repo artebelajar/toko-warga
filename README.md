@@ -27,6 +27,19 @@ Project ini cocok untuk:
 
 ## 📸 Screenshot Website
 
+## 📸 Screenshot Website
+
+### Halaman Home
+![Home Page](./assets/navbar.png)
+
+### Halaman Produk
+![Product Page](./assets/user.png)
+
+### Keranjang Belanja
+![Cart Page](./assets/order.png)
+
+### Admin Dashboard
+![Cart Page](./assets/admin.png)
 
 ---
 ---
