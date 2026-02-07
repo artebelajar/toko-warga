@@ -26,11 +26,3 @@ Project ini cocok untuk:
 ---
 
 ## 📸 Screenshot Website
-
-> Simpan screenshot di folder `assets/` atau `public/`
-
-```text
-assets/
-├── home.png
-├── product.png
-├── cart.png
