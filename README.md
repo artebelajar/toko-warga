@@ -31,11 +31,9 @@ Project ini cocok untuk:
 
 ### Halaman Home
 ![Home Page](./assets/navbar.png)
-
-### Halaman Produk
 ![Product Page](./assets/user.png)
 
-### Keranjang Belanja
+### Order Page
 ![Cart Page](./assets/order.png)
 
 ### Admin Dashboard
